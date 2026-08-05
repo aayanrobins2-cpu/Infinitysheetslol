@@ -31,6 +31,7 @@ dist/
 dist
 
 # Environment files (comprehensive coverage)
+
 *token.json*
 *credentials.json*
 
@@ -78,6 +79,11 @@ agenthub/agents/youtube/db
 memory/test_credentials.md
 
 # Mobile development
-android-sdk/node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
-node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
-node_modules/@next/swc-linux-arm64-musl/next-swc.linux-arm64-musl.node
+android-sdk/
+.env
+.env.*
+*.env
+credentials.json
+*.key
+.credentials
+frontend/node_modules/.cache/default-development/1.pack

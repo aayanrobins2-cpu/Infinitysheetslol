@@ -1,0 +1,129 @@
+import React, { useState } from 'react';
+import { EXAM_TRACKS } from '../../data/mock';
+import { toast } from 'sonner';
+import { DoodleGradCap } from '../decor/StudyDoodles';
+import GoogleAuthButton from './GoogleAuthButton';
+import { useApp } from '../../context/AppContext';
+
+export default function SignupSection() {
+  const { apiRegister, apiLogin, apiGoogleAuth } = useApp();
+  const [tab, setTab] = useState('signup');
+  const [form, setForm] = useState({ name: '', email: '', track: 'AP', password: '' });
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [busy, setBusy] = useState(false);
+
+  const goDashboard = () => { window.location.hash = '#dashboard'; };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    if (!form.email.trim() || (form.password || '').length < 6) {
+      toast.error('Enter an email and a password of at least 6 characters.');
+      return;
+    }
+    setBusy(true);
+    try {
+      await apiRegister({ email: form.email, password: form.password, name: form.name, examTrack: form.track, subjects: [] });
+      toast.success('Welcome to InfinitySheets!');
+      goDashboard();
+    } catch (err) {
+      if (err?.code === 'email_confirmation_required') toast.info(err.message);
+      else toast.error(err?.message || 'Could not create your account.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (busy) return;
+    if (!loginForm.email.trim() || !loginForm.password) {
+      toast.error('Enter your email and password.');
+      return;
+    }
+    setBusy(true);
+    try {
+      await apiLogin({ email: loginForm.email, password: loginForm.password });
+      toast.success('Welcome back!');
+      goDashboard();
+    } catch (err) {
+      toast.error(err?.message || 'Invalid email or password.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleGoogle = async () => {
+    try {
+      await apiGoogleAuth();
+    } catch (err) {
+      toast.error(err?.message || 'Google sign-in is not available yet.');
+    }
+  };
+
+  return (
+    <section id="signup" className="relative section-dark overflow-hidden">
+      <div className="hidden lg:block absolute left-[3%] bottom-16"><DoodleGradCap width={95} /></div>
+      <div className="max-w-[1280px] mx-auto px-6 py-24 lg:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div>
+          <div className="text-blue-700 text-[11px] tracking-[0.14em] uppercase font-semibold mb-5">Start now</div>
+          <h2 className="h-display text-[40px] sm:text-[48px] lg:text-[56px] text-slate-900">
+            Create your InfinitySheets account.
+          </h2>
+          <p className="mt-5 max-w-[520px] text-[15px] text-slate-600 leading-relaxed">
+            Sign up with your email to save your worksheets, streak, and progress across devices. Sessions are protected with secure httpOnly cookies.
+          </p>
+        </div>
+        <div className="liquid-glass rounded-2xl p-6" data-testid="auth-panel">
+          <div className="grid grid-cols-2 gap-2 mb-5">
+            <button onClick={() => setTab('signup')} data-testid="tab-signup" className={`py-2.5 rounded-lg text-[14px] font-medium transition-colors ${tab === 'signup' ? 'bg-blue-600 text-white' : 'bg-transparent text-slate-500 hover:text-slate-900 border border-slate-300'}`}>Sign Up</button>
+            <button onClick={() => setTab('login')} data-testid="tab-login" className={`py-2.5 rounded-lg text-[14px] font-medium transition-colors ${tab === 'login' ? 'bg-blue-600 text-white' : 'bg-transparent text-slate-500 hover:text-slate-900 border border-slate-300'}`}>Log In</button>
+          </div>
+
+          <div className="mb-4">
+            <GoogleAuthButton
+              onCredential={handleGoogle}
+              onError={(m) => toast.error(m || 'Google sign-in failed.')}
+              onUnavailable={handleGoogle}
+              label={tab === 'signup' ? 'Sign up with Google' : 'Continue with Google'}
+            />
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span className="text-[11px] uppercase tracking-wider text-slate-500">or with email</span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+
+          {tab === 'signup' ? (
+            <form onSubmit={handleSignup} className="flex flex-col gap-3">
+              <Field label="Name"><input data-testid="signup-name" className="input-base" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></Field>
+              <Field label="Email"><input data-testid="signup-email" type="email" className="input-base" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
+              <Field label="Exam track">
+                <select data-testid="signup-track" className="input-base" value={form.track} onChange={(e) => setForm({ ...form, track: e.target.value })}>
+                  {EXAM_TRACKS.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+                </select>
+              </Field>
+              <Field label="Password (min 6 characters)"><input data-testid="signup-password" type="password" className="input-base" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} /></Field>
+              <button type="submit" data-testid="signup-submit" disabled={busy} className="btn-violet mt-2 py-3 rounded-lg text-[14px] font-medium disabled:opacity-60">{busy ? 'Creating…' : 'Create account'}</button>
+            </form>
+          ) : (
+            <form onSubmit={handleLogin} className="flex flex-col gap-3">
+              <Field label="Email"><input data-testid="login-email" type="email" className="input-base" value={loginForm.email} onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} /></Field>
+              <Field label="Password"><input data-testid="login-password" type="password" className="input-base" value={loginForm.password} onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} /></Field>
+              <button type="submit" data-testid="login-submit" disabled={busy} className="btn-violet mt-2 py-3 rounded-lg text-[14px] font-medium disabled:opacity-60">{busy ? 'Logging in…' : 'Log in'}</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({ label, children }) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-[10px] tracking-[0.14em] uppercase font-semibold text-slate-500">{label}</span>
+      {children}
+    </label>
+  );
+}
