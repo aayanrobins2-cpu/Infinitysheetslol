@@ -54,6 +54,10 @@ export function AppProvider({ children }) {
   const isDemoLocalRef = useRef(false);
   const bootstrappedRef = useRef(null);
 
+  // Cloud-sync status for the header badge: idle | saving | saved | error | local
+  const [syncStatus, setSyncStatus] = useState('idle');
+  const pendingRef = useRef(0);
+
   // ---- sync helpers -------------------------------------------------------
   const canSync = () => {
     const u = stateRef.current.user;
@@ -62,7 +66,18 @@ export function AppProvider({ children }) {
   const uid = () => stateRef.current.user && stateRef.current.user.id;
   const bg = (factory, scope) => {
     if (!canSync()) return;
-    Promise.resolve().then(factory).catch((e) => logError(scope, e));
+    pendingRef.current += 1;
+    setSyncStatus('saving');
+    Promise.resolve().then(factory)
+      .then(() => {
+        pendingRef.current = Math.max(0, pendingRef.current - 1);
+        if (pendingRef.current === 0) setSyncStatus('saved');
+      })
+      .catch((e) => {
+        pendingRef.current = Math.max(0, pendingRef.current - 1);
+        logError(scope, e);
+        setSyncStatus('error');
+      });
   };
 
   // Pull a signed-in user's full state from Supabase (source of truth),
@@ -90,6 +105,7 @@ export function AppProvider({ children }) {
     try {
       const loadedState = await store.loadAll(userId, authUser);
       setState((s) => ({ ...defaultState, theme: s.theme, ...loadedState }));
+      setSyncStatus('saved');
     } catch (e) {
       logError('loadAll', e);
       // Fall back to a minimal signed-in user so the app is still usable.
@@ -134,6 +150,7 @@ export function AppProvider({ children }) {
       if (isDemoLocalRef.current) return; // demo never touches Supabase
       if (event === 'SIGNED_OUT') {
         bootstrappedRef.current = null;
+        setSyncStatus('idle');
         setState((s) => ({ ...defaultState, theme: s.theme }));
         setLoaded(true);
         return;
@@ -172,6 +189,7 @@ export function AppProvider({ children }) {
 
   const startDemo = useCallback(() => {
     isDemoLocalRef.current = true;
+    setSyncStatus('local');
     setState((s) => ({
       ...s,
       user: { name: 'Demo Student', email: 'demo@infinitysheets.app', examTrack: 'CBSE', isDemo: true, subjects: [] },
@@ -265,6 +283,7 @@ export function AppProvider({ children }) {
     catch (e) { logError('logout', e); }
     isDemoLocalRef.current = false;
     bootstrappedRef.current = null;
+    setSyncStatus('idle');
     setState((s) => ({ ...defaultState, theme: s.theme }));
   }, []);
 
@@ -491,7 +510,7 @@ export function AppProvider({ children }) {
   }, []);
 
   const value = useMemo(() => ({
-    state, loaded,
+    state, loaded, syncStatus,
     signup, login, logout,
     apiRegister, apiLogin, apiGoogleAuth, apiLogout,
     updateProfile, updateSettings, resetProgress, seedTestPerformance, deleteAccount,
@@ -501,7 +520,7 @@ export function AppProvider({ children }) {
     addPastPaper, removePastPaper, refreshPastPapers,
     toggleTheme, startDemo, completeOnboarding, restartOnboarding,
   }), [
-    state, loaded,
+    state, loaded, syncStatus,
     signup, login, logout,
     apiRegister, apiLogin, apiGoogleAuth, apiLogout,
     updateProfile, updateSettings, resetProgress, seedTestPerformance, deleteAccount,
