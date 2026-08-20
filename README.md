@@ -28,7 +28,6 @@ tooling (past-paper PDF extraction) using the `service_role` key.
 |-----|---------|
 | `REACT_APP_SUPABASE_URL` | Supabase project URL |
 | `REACT_APP_SUPABASE_ANON_KEY` | Supabase anon/publishable key (safe in browser) |
-| `REACT_APP_GOOGLE_CLIENT_ID` | *(optional)* Google Identity client id; leave blank to use Supabase's redirect OAuth |
 | `REACT_APP_BACKEND_URL` | FastAPI base URL (past-paper admin endpoints) |
 
 > ⚠️ Never put the `service_role` key (or any secret) in a `REACT_APP_*` var —
@@ -104,8 +103,8 @@ signup (email/password and Google).
    - Authorized redirect URI = `https://<PROJECT_REF>.supabase.co/auth/v1/callback`.
    - Paste the Google **Client ID + Secret** into Supabase →
      Authentication → Providers → **Google**, and enable it.
-   - Email/password works without this; the Google button only functions once
-     the provider is configured.
+   - The app's button starts Supabase's redirect flow; no Google client ID is
+     exposed in the frontend environment.
 5. **Make an admin** (to manage past papers): in SQL Editor,
    `update public.profiles set role='admin' where email='you@example.com';`
 
