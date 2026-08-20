@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { SUBJECT_INFO } from '../../data/mock';
+
 import { TrendingUp, TrendingDown, Minus, Sparkles } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import EmptyStateScene from '../decor/EmptyStateScene';
 import { predictedScore, predictedBreakdown, formatGrade, TONE_CLASSES, isGradedTrack } from '../../lib/predictedGrade';
 import { useStrengthsWeaknesses, useSavedSwOverridesFor, useSavedSwPrefs, computeSw, pickOverridesFor } from '../../hooks/useStrengthsWeaknesses';
@@ -152,7 +153,6 @@ export default function ProgressView() {
           {allSubjects.map((s, i) => {
             const color = SUBJECT_COLORS[i % SUBJECT_COLORS.length];
             const off = isHidden(s);
-            const info = SUBJECT_INFO[s] || { emoji: '\u25A0' };
             const d = deltas[s] || {};
             const isHovered = hoveredSubject === s;
             const dimmed = !!hoveredSubject && !isHovered && !off;
@@ -173,7 +173,7 @@ export default function ProgressView() {
                 }`}
               >
                 <span className="w-2.5 h-2.5 rounded-full" style={{ background: off ? '#cbd5e1' : color }} />
-                <span className="text-[14px] leading-none">{info.emoji}</span>
+                <SubjectIcon subject={s} className="w-4 h-4 shrink-0 text-slate-500" />
                 <span className={off ? 'line-through' : ''}>{s}</span>
                 {!off && d.hasEnough && <DeltaPill delta={d.delta} small />}
               </button>
@@ -235,7 +235,6 @@ export default function ProgressView() {
                 key={s}
                 s={s}
                 color={SUBJECT_COLORS[allSubjects.indexOf(s) % SUBJECT_COLORS.length]}
-                info={SUBJECT_INFO[s] || { emoji: '\u25A0' }}
                 p={predictedBySubject[s] || { predicted: 0, count: 0, grade: null }}
                 d={deltas[s] || {}}
                 ws={ws}
@@ -255,7 +254,7 @@ export default function ProgressView() {
 // Row rendering a single subject's predicted grade + progress bar + S/W counts
 // and richer stats (best, latest, improvement bonus). Split out so we can
 // call the useStrengthsWeaknesses hook per subject (hooks can't be conditional).
-function SubjectPredictedRow({ s, color, info, p, d, ws, isHovered, dimmed, onHover }) {
+function SubjectPredictedRow({ s, color, p, d, ws, isHovered, dimmed, onHover }) {
   const subjectWs = useMemo(() => ws.filter((w) => w.subject === s), [ws, s]);
   const subjOverrides = useSavedSwOverridesFor(s);
   const { strengths, weaknesses, strengthMin, weaknessMax, isCustom } = useStrengthsWeaknesses(subjectWs, subjOverrides);
@@ -301,7 +300,7 @@ function SubjectPredictedRow({ s, color, info, p, d, ws, isHovered, dimmed, onHo
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="w-2.5 h-2.5 rounded-full" style={{ background: color }} />
-          <span className="text-[14.5px]">{info.emoji}</span>
+          <SubjectIcon subject={s} className="w-4 h-4 shrink-0 text-slate-500" />
           <span className="text-[14px] font-semibold text-slate-900">{s}</span>
           <span className="text-[11px] text-slate-500">· {p.count} {p.count === 1 ? 'attempt' : 'attempts'}</span>
         </div>

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { QUESTION_BANK, SUBJECTS, SUBJECT_INFO, TOPICS } from '../../data/mock';
 import { BookOpen, Eye, EyeOff, Sparkles, Library, ChevronRight, Search, ArrowLeft, ArrowRight } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import StudyDecor from '../decor/StudyDecor';
 import CreateWorksheetButton from './CreateWorksheetButton';
 
@@ -105,7 +106,7 @@ function SubjectPicker({ subjects, onPick, track }) {
                 className="group text-left card-soft p-5 border border-[color:var(--color-border)] hover:border-blue-400 hover:shadow-md transition-all"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-[22px]">{info.emoji}</div>
+                  <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center"><SubjectIcon subject={s} className="w-5 h-5" /></div>
                   <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <div className="text-[16.5px] font-semibold text-slate-900">{s}</div>
@@ -189,7 +190,7 @@ function BrowseSubject({ subject, chosenSubjects, onBack, onSwitchSubject, go })
             return (
               <button key={s} onClick={() => onSwitchSubject(s)}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12.5px] font-medium border transition-colors ${sel ? 'bg-blue-50 border-blue-300 text-blue-700' : 'bg-white border-[color:var(--color-border)] text-slate-700 hover:bg-slate-100'}`}>
-                <span className="text-[14px] leading-none">{info.emoji}</span>
+                <SubjectIcon subject={s} className="w-4 h-4 shrink-0" />
                 <span>{s}</span>
                 <span className="text-[11px] text-slate-500">{ALL_QUESTIONS[s]?.length || 0}</span>
               </button>
@@ -226,7 +227,7 @@ function SubjectQuestions({ subject, questions, revealed, setRevealed, launchPra
       <div className="card-soft p-5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
-            <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-[18px]">{info.emoji}</div>
+            <div className="w-9 h-9 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center"><SubjectIcon subject={subject} className="w-[18px] h-[18px]" /></div>
             <div className="min-w-0">
               <div className="text-[15.5px] font-semibold text-slate-900">{subject}</div>
               <div className="text-[12px] text-slate-500">{questions.length} {questions.length === 1 ? 'question' : 'questions'} in this subject · curated</div>

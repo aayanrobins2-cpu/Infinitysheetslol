@@ -1,7 +1,7 @@
 import React from 'react';
 import Reveal from './Reveal';
 import { FEATURES } from '../../data/mock';
-import { FeatureDemo, DEMO_KINDS } from './Features';
+import { FeatureDemo, DEMO_KINDS } from './FeatureDemos';
 
 /*
  * The six feature cards, laid out as a still 2D grid under "Everything you
@@ -23,10 +23,10 @@ function FeatureCard({ f, demoIndex }) {
 
 export default function StudentGallery3D() {
   return (
-    <section id="features" className="section-bg scroll-mt-24">
+    <section id="features" className="section-light scroll-mt-24">
       <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-14 text-center">
         <Reveal>
-          <h2 className="h-display text-[28px] sm:text-[34px] lg:text-[40px] leading-[1.05]">Everything you need to study smarter.</h2>
+          <h2 className="h-display text-[28px] sm:text-[34px] lg:text-[40px] leading-[1.05]">Everything you need to study <span className="h-serif">smarter</span>.</h2>
         </Reveal>
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-[1100px] mx-auto">
           {FEATURES.map((f, i) => (

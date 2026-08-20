@@ -55,7 +55,7 @@ export default function FAQ() {
   const [open, setOpen] = useState(0);
   const [showMore, setShowMore] = useState(false);
   return (
-    <section id="faq" className="section-bg">
+    <section id="faq" className="scroll-mt-24 section-light">
       <div className="max-w-[1280px] mx-auto px-6 py-28 lg:py-32">
         <Reveal>
           <div className="relative text-center max-w-[720px] mx-auto">

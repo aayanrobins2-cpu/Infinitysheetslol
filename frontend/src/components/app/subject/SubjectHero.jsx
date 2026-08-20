@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListChecks } from 'lucide-react';
+import SubjectIcon from '../../../lib/SubjectIcon';
 import InfinityBackground from '../../decor/InfinityBackground';
 import CreateWorksheetButton from '../CreateWorksheetButton';
 
@@ -35,7 +36,7 @@ export default function SubjectHero({ subject, info, examTrack, topicCount, subj
       <div className="relative p-7 lg:p-10 grid lg:grid-cols-[1.4fr_1fr] gap-6 items-center">
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-14 h-14 rounded-xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-[28px] font-semibold">{info.emoji}</div>
+            <div className="w-14 h-14 rounded-xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center"><SubjectIcon subject={subject} className="w-7 h-7" /></div>
             <div>
               <div className="text-[11px] tracking-[0.18em] uppercase font-semibold text-white/70">{examTrack} · Subject overview</div>
               <div className="text-[28px] font-semibold tracking-tight leading-tight">{subject}</div>

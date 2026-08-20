@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { EXAM_TRACKS, SUBJECT_INFO, TOPICS, TOPIC_SUMMARY } from '../../data/mock';
 import { ArrowLeft, BookOpen, GraduationCap, CalendarClock, ArrowRight } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import InfinityBackground from '../decor/InfinityBackground';
 import CreateWorksheetButton from './CreateWorksheetButton';
 
@@ -42,7 +43,7 @@ function SubjectBlock({ s, onStudy }) {
     <div className="card-soft p-5">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-[20px]">{info.emoji}</div>
+          <div className="w-11 h-11 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center"><SubjectIcon subject={course.subjects?.[0]?.subject} className="w-5 h-5" /></div>
           <div className="min-w-0">
             <div className="text-[16px] font-semibold text-slate-900 truncate">{s.subject}</div>
             <div className="text-[12px] text-slate-500 mt-0.5">{topics.length} {topics.length === 1 ? 'topic' : 'topics'}{s.examDate ? ` · exam on ${new Date(s.examDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}` : ''}</div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Plus, GraduationCap, Trash2, CalendarClock, ArrowRight, Sparkles } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import { EXAM_TRACKS, SUBJECT_INFO } from '../../data/mock';
 import { toast } from 'sonner';
 import CourseWizard from './CourseWizard';
@@ -27,12 +28,11 @@ function normalize(course) {
 }
 
 function SubjectRow({ s }) {
-  const info = SUBJECT_INFO[s.subject] || { emoji: '\u25A0' };
   const days = daysUntil(s.examDate);
   return (
     <div className="flex items-center justify-between gap-3 px-3 py-2 rounded-md border border-[color:var(--color-border)]">
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-[15px] leading-none">{info.emoji}</span>
+        <SubjectIcon subject={s} className="w-4 h-4 shrink-0" />
         <div className="min-w-0">
           <div className="text-[13px] font-semibold text-slate-900 truncate">{s.subject}</div>
           <div className="text-[11px] text-slate-500">{s.examDate ? new Date(s.examDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'No date'}</div>

@@ -87,7 +87,7 @@ export default function Waitlist({ variant = 'section', id }) {
   }
 
   return (
-    <section id={id || 'waitlist-section'} className="relative section-dark overflow-hidden">
+    <section id={id || 'waitlist-section'} className="relative section-dark overflow-hidden scroll-mt-24">
       <div className="max-w-[860px] mx-auto px-6 py-10 lg:py-12 text-center">
         <h2 className="h-display text-slate-900 text-[28px] sm:text-[34px] lg:text-[38px] leading-[1.05]">
           Be one of the first students in.

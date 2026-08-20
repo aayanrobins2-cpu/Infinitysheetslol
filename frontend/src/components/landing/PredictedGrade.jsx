@@ -95,7 +95,7 @@ function Chart() {
 
 export default function PredictedGrade() {
   return (
-    <section className="section-light overflow-hidden">
+    <section className="section-bg overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <Reveal>

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { EXAM_TRACKS, SUBJECTS, SUBJECT_INFO } from '../../data/mock';
 import { ArrowRight, ArrowLeft, Calendar, CheckCircle2, GraduationCap, BookOpen, X, Sparkles, CalendarClock, Target } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import StudyDecor from '../decor/StudyDecor';
 import { toast } from 'sonner';
 
@@ -166,7 +167,6 @@ export default function CourseWizard({ mode = 'onboarding', onClose }) {
               </div>
               <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2.5">
                 {trackSubjects.map((s) => {
-                  const info = SUBJECT_INFO[s] || { emoji: '\u25A0', tagline: 'Practice and improve.' };
                   const sel = picked.includes(s);
                   return (
                     <button key={s} onClick={() => togglePick(s)}
@@ -174,7 +174,7 @@ export default function CourseWizard({ mode = 'onboarding', onClose }) {
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[16px] leading-none">{info.emoji}</span>
+                            <SubjectIcon subject={s} className="w-4 h-4 shrink-0" />
                             <span className={`text-[13.5px] font-semibold ${sel ? 'text-blue-700' : 'text-slate-900'}`}>{s}</span>
                           </div>
                         </div>
@@ -214,13 +214,12 @@ export default function CourseWizard({ mode = 'onboarding', onClose }) {
 
               <div className="mt-5 flex flex-col gap-3">
                 {picked.map((s) => {
-                  const info = SUBJECT_INFO[s] || { emoji: '\u25A0' };
                   const v = dates[s] || '';
                   const days = v ? Math.max(0, Math.ceil((new Date(v + 'T00:00:00').getTime() - Date.now()) / (1000 * 60 * 60 * 24))) : null;
                   return (
                     <div key={s} className="rounded-xl border border-[color:var(--color-border)] p-4 grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-3 items-center">
                       <div className="flex items-center gap-2">
-                        <span className="text-[18px] leading-none">{info.emoji}</span>
+                        <SubjectIcon subject={s} className="w-[18px] h-[18px] shrink-0" />
                         <div>
                           <div className="text-[14px] font-semibold text-slate-900">{s}</div>
                         </div>

@@ -14,48 +14,51 @@ const FEATURES = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="relative section-light overflow-hidden">
+    <section id="pricing" className="scroll-mt-24 relative section-light overflow-hidden">
       <div className="hidden lg:block absolute left-[4%] bottom-16"><DoodleGradCap /></div>
       <div className="max-w-[1280px] mx-auto px-6 py-28 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-[1040px] mx-auto">
-          <Reveal>
-            <div>
-              <h2 className="h-display text-[44px] sm:text-[54px] lg:text-[60px] leading-[1.05]">Your grades deserve better. This costs nothing.</h2>
-              <p className="mt-6 text-[16px] text-slate-600 leading-relaxed max-w-[520px]">
-                The training that moves exam results has always sat behind a price&mdash;coaching fees, paid
-                question banks, private tutors. We built InfinitySheets so the only thing standing between
-                you and a better grade is the decision to start. Every feature. Every subject. Free.
-              </p>
-              <p className="mt-4 text-[16px] text-slate-600 leading-relaxed max-w-[520px]">
-                One worksheet today is how it begins. Ten weeks from now, it looks like a grade you
-                didn&rsquo;t think was yours.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal from="scale" delay={0.15}>
-            <div className="relative rounded-3xl p-8 liquid-glass-clear shadow-2xl shadow-slate-900/10">
-              <div className="text-[11px] tracking-[0.14em] uppercase font-semibold text-blue-600">Everything, free</div>
-              <div className="flex items-baseline gap-3 mt-3">
-                <Emphasis variant="circle">
-                  <span className="text-[72px] font-semibold tracking-tight text-slate-900 px-1">$0</span>
-                </Emphasis>
-                <span className="text-[15px] text-slate-500">forever &middot; every feature</span>
+        {/* The price is the strongest thing on the page, so it gets the full
+            width and the biggest type instead of sitting in a side card. */}
+        <Reveal>
+          <div className="text-center max-w-[900px] mx-auto">
+            <h2 className="h-display text-[40px] sm:text-[50px] lg:text-[58px] leading-[1.05]">
+              Your grades deserve better.<br />This costs <span className="h-serif">nothing</span>.
+            </h2>
+            <div className="mt-10 flex flex-col items-center">
+              <Emphasis variant="circle">
+                <span className="block text-[112px] sm:text-[150px] lg:text-[180px] font-semibold tracking-[-0.04em] leading-[0.85] text-slate-900 px-2">$0</span>
+              </Emphasis>
+              <div className="mt-5 text-[15px] tracking-[0.14em] uppercase font-semibold text-slate-500">
+                forever &middot; every feature &middot; every subject
               </div>
-              <ul className="mt-6 flex flex-col gap-3">
-                {FEATURES.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 mt-0.5 text-emerald-600" strokeWidth={2.6} />
-                    <span className="text-[14.5px] text-slate-700">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a href="#signup" className="mt-8 inline-flex items-center justify-center gap-2 w-full py-3 rounded-lg text-[15px] font-medium bg-blue-500 hover:bg-blue-400 text-white transition-colors">
-                Make the change <ArrowRight className="w-4 h-4" />
-              </a>
-              <p className="mt-4 text-[12px] text-slate-500 text-center">Supported by ads, so it stays free for everyone.</p>
             </div>
-          </Reveal>
-        </div>
+            <p className="mt-8 text-[16.5px] text-slate-600 leading-relaxed max-w-[620px] mx-auto">
+              The training that moves exam results has always sat behind a price&mdash;coaching fees, paid
+              question banks, private tutors. We built InfinitySheets so the only thing standing between
+              you and a better grade is the decision to start.
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <ul className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3 max-w-[900px] mx-auto">
+            {FEATURES.map((f) => (
+              <li key={f} className="flex items-start gap-2.5">
+                <Check className="w-4 h-4 mt-1 shrink-0 text-emerald-600" strokeWidth={2.6} />
+                <span className="text-[14.5px] text-slate-700">{f}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="mt-12 flex flex-col items-center">
+            <a href="#signup" className="btn-violet inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl text-[17px] font-semibold shadow-lg shadow-violet-300/40">
+              Make the change <ArrowRight className="w-5 h-5" />
+            </a>
+            <p className="mt-4 text-[12.5px] text-slate-500">Supported by ads, so it stays free for everyone.</p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

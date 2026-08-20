@@ -58,7 +58,7 @@ export default function Hero() {
             Start Free <ArrowRight className="w-5 h-5" />
           </a>
           {/* Secondary: the product walkthrough — the only visual proof on the page */}
-          <button onClick={() => setVideoOpen(true)} className="btn-outline-dark inline-flex items-center gap-2 px-6 py-4 rounded-xl text-[16px] font-medium">
+          <button onClick={() => setVideoOpen(true)} className="inline-flex items-center gap-2 px-6 py-4 rounded-xl text-[16px] font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 transition-colors">
             <Play className="w-5 h-5 text-red-600" /> Watch video
           </button>
         </motion.div>
@@ -71,14 +71,6 @@ export default function Hero() {
         >
           or try a real exam question right now &darr;
         </motion.a>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex justify-center"
-        >
-          <Waitlist variant="inline" />
-        </motion.div>
         <FeatureCarousel />
         <motion.div
           initial={{ opacity: 0 }}
@@ -95,6 +87,15 @@ export default function Hero() {
               {t.name}
             </a>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.62, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full flex justify-center"
+        >
+          <Waitlist variant="inline" />
         </motion.div>
       </div>
     </section>

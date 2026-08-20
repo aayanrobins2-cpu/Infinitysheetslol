@@ -2,6 +2,7 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { SUBJECTS, SUBJECT_INFO } from '../../data/mock';
 import { BookOpen, ArrowRight } from 'lucide-react';
+import SubjectIcon from '../../lib/SubjectIcon';
 import InfinityBackground from '../decor/InfinityBackground';
 import SubjectOverview from './SubjectOverview';
 import CreateWorksheetButton from './CreateWorksheetButton';
@@ -48,7 +49,7 @@ export default function StartStudying({ go, subjectParam }) {
             return (
               <button key={s} onClick={() => { window.location.hash = `#study?subject=${encodeURIComponent(s)}`; }} className="group relative text-left card-soft p-5 overflow-hidden">
                 <div className="relative flex items-start justify-between gap-3">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-[22px] font-semibold ${toneBadge[info.tone] || toneBadge.primary}`}>{info.emoji}</div>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${toneBadge[info.tone] || toneBadge.primary}`}><SubjectIcon subject={s} className="w-5 h-5" /></div>
                   <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
                 </div>
                 <div className="relative mt-4 text-[16.5px] font-semibold text-slate-900">{s}</div>

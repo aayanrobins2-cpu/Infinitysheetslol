@@ -13,8 +13,8 @@
     --color-tertiary-700: #b91c1c;
     --color-accent: #dc2626;         /* alias to tertiary (red) */
     --color-success: #10b981;        /* emerald */
-    --color-bg: #fafaf7;              /* off white */
-    --color-bg-2: #f4f3ee;
+    --color-bg: #ffffff;              /* pure white */
+    --color-bg-2: #f2f4f8;            /* cool tinted band, clearly distinct from white */
     --color-card: #ffffff;
     --color-text: #0f172a;            /* dark slate */
     --color-text-2: #64748b;          /* gray */
@@ -113,10 +113,24 @@ html, body {
     background: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: 14px;
-    transition: border-color 0.18s ease, transform 0.18s ease;
+    /* Two-layer shadow: a tight contact edge plus a soft ambient pool, so
+       cards sit on the page instead of being outlined boxes. */
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -14px rgba(15, 23, 42, 0.10);
+    transition: border-color 0.18s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .card-soft:hover {
     border-color: var(--color-text-2);
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 36px -18px rgba(15, 23, 42, 0.20);
+}
+@media (prefers-reduced-motion: reduce) {
+    .card-soft, .card-soft:hover { transition: none; transform: none; }
+}
+html.dark .card-soft {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px -14px rgba(0, 0, 0, 0.7);
+}
+html.dark .card-soft:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), 0 18px 36px -18px rgba(0, 0, 0, 0.8);
 }
 
 .section-light {
@@ -125,6 +139,26 @@ html, body {
 
 .section-bg {
     background: var(--color-bg);
+}
+
+/* Section rhythm — a soft gradient bleed at the top edge of alternating
+   sections so tonal changes read as a transition rather than a hard cut. */
+.section-light,
+.section-bg {
+    position: relative;
+}
+.section-light::before,
+.section-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 96px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.028), transparent);
+}
+html.dark .section-light::before,
+html.dark .section-bg::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
 }
 
 /* Formerly a navy block; in light mode it is now a soft off-white band
@@ -772,4 +806,34 @@ html.dark .sidebar-item:focus-visible {
 html.dark .sidebar-item:hover svg,
 html.dark .sidebar-item:focus-visible svg {
     color: #60a5fa !important;
+}
+
+/* Hints that only make sense with a pointer */
+@media (hover: none) {
+    .hover-hint { display: none; }
+}
+
+/* 7 — expressive display face for section headings, used consistently
+   rather than on a single word. */
+.h-serif {
+    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+/* Feature-grid cards: same lift language as .card-soft so the grid feels
+   tactile rather than like table cells. */
+.feature-card {
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 18px 36px -18px rgba(15, 23, 42, 0.22);
+}
+html.dark .feature-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 36px -18px rgba(0, 0, 0, 0.8);
+}
+@media (prefers-reduced-motion: reduce) {
+    .feature-card, .feature-card:hover { transition: none; transform: none; }
 }

@@ -5,7 +5,7 @@ import { DoodleGradCap, DoodleEquations } from '../decor/StudyDoodles';
 
 export default function FoundingStory() {
   return (
-    <section id="story" className="relative section-light overflow-hidden">
+    <section id="story" className="scroll-mt-24 relative section-light overflow-hidden">
       <div className="hidden lg:block absolute right-[4%] top-14"><DoodleGradCap /></div>
       <div className="hidden lg:block absolute left-[3%] bottom-12"><DoodleEquations width={130} /></div>
       <div className="max-w-[820px] mx-auto px-6 py-24 lg:py-28">

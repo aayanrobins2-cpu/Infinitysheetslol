@@ -87,12 +87,12 @@ export default function TryQuestion() {
   const nextQuestion = () => { setPicked(null); setQIndex((i) => (i + 1) % QUESTIONS.length); };
 
   return (
-    <section id="try" className="section-bg">
+    <section id="try" className="scroll-mt-24 section-bg">
       <div className="max-w-[1280px] mx-auto px-6 py-20 lg:py-28">
         <Reveal>
           <div className="relative text-center max-w-[760px] mx-auto">
             <div className="hidden lg:block absolute -left-52 top-4"><DoodleEquations /></div>
-            <h2 className="h-display text-[44px] sm:text-[56px] lg:text-[64px] leading-[1.05]">Try a real question. Right here.</h2>
+            <h2 className="h-display text-[44px] sm:text-[56px] lg:text-[64px] leading-[1.05]">Try a <span className="h-serif">real</span> question. Right here.</h2>
             <p className="mt-5 text-[16px] text-slate-500 leading-relaxed">
               This is what practice on InfinitySheets feels like&mdash;instant marking, an explanation, and a read on your weak spots.
             </p>

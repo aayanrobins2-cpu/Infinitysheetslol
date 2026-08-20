@@ -1,9 +1,7 @@
 import React from 'react';
-import { FEATURES } from '../../data/mock';
-import Reveal from './Reveal';
-import { DoodleStationery, DoodleTestTubes } from '../decor/StudyDoodles';
 
-/* Mini looping demos shown inside a card while it is hovered.
+/* Demo vignettes for the feature cards.
+   Mini looping demos shown inside a card while it is hovered.
    SVG-based so they stay crisp and theme-aware. */
 export function FeatureDemo({ kind }) {
   const card = { fill: 'var(--doodle-paper, #fff)', stroke: '#cbd5e1', strokeWidth: 1.2 };
@@ -94,41 +92,4 @@ export function FeatureDemo({ kind }) {
 export const DEMO_KINDS = ['weakness', 'targeted', 'grades', 'feedback', 'bank', 'fresh'];
 
 /* Hover expands on desktop; on touch devices a tap toggles the demo. */
-function FeatureCard({ f, kind }) {
-  const [open, setOpen] = React.useState(false);
-  return (
-    <div
-      tabIndex={0}
-      onClick={() => setOpen((o) => !o)}
-      className={`feature-card liquid-glass rounded-2xl p-6 h-full hover-lift cursor-default ${open ? 'demo-open' : ''}`}
-    >
-      <div className="feature-demo">
-        <FeatureDemo kind={kind} />
-      </div>
-      <h3 className="text-[18px] font-semibold text-slate-900 mb-2">{f.title}</h3>
-      <p className="text-[14.5px] text-slate-600 leading-relaxed">{f.desc}</p>
-    </div>
-  );
-}
 
-export default function Features() {
-  return (
-    <section id="features" className="relative section-light overflow-hidden">
-      <div className="hidden lg:block absolute right-[4%] top-16"><DoodleTestTubes /></div>
-      <div className="hidden lg:block absolute left-[3%] bottom-12"><DoodleStationery /></div>
-      <div className="max-w-[1280px] mx-auto px-6 py-24 lg:py-28">
-        <div className="max-w-[760px]">
-          <h2 className="h-display text-[44px] sm:text-[54px] lg:text-[62px]">Everything you need to study smarter.</h2>
-          <p className="mt-4 text-[15px] text-slate-500">Hover a card to see the feature in action.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
-          {FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 3) * 0.08} y={20}>
-              <FeatureCard f={f} kind={DEMO_KINDS[i] || 'fresh'} />
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
